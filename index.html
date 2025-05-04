@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cajero Automático Simulado</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="atm">
+        <h1>Cajero Virtual</h1>
+        <input type="number" id="monto" placeholder="Ingresa un monto" />
+        <div class="botones">
+            <button onclick="realizarOperacion('consultar')">Consultar saldo</button>
+            <button onclick="realizarOperacion('depositar')">Depositar</button>
+            <button onclick="realizarOperacion('retirar')">Retirar</button>
+        </div>
+        <div id="respuesta"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
