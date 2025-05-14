@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Estudiantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            margin: 5px 0;
+            padding: 6px;
+            width: 100%;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .estudiante {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Registro de Estudiantes</h2>
+    <form id="formularioEstudiante">
+        <label>Nombre del estudiante:</label><br>
+        <input type="text" id="nombre" required><br>
+
+        <label>Calificación 1:</label><br>
+        <input type="number" id="cal1" min="0" max="10" step="0.1" required><br>
+
+        <label>Calificación 2:</label><br>
+        <input type="number" id="cal2" min="0" max="10" step="0.1" required><br>
+
+        <label>Calificación 3:</label><br>
+        <input type="number" id="cal3" min="0" max="10" step="0.1" required><br>
+
+        <button type="submit">Registrar Estudiante</button>
+    </form>
+
+    <div id="listaEstudiantes">
+        <h3>Estudiantes Registrados:</h3>
+    </div>
+
+    <script>
+        const formulario = document.getElementById('formularioEstudiante');
+        const listaEstudiantes = document.getElementById('listaEstudiantes');
+        const estudiantes = [];
+
+        function calcularPromedio(calificaciones) {
+            let suma = 0;
+            for (let i = 0; i < calificaciones.length; i++) {
+                suma += calificaciones[i];
+            }
+            return suma / calificaciones.length;
+        }
+
+        formulario.addEventListener('submit', function (event) {
+            event.preventDefault(); // Evita que la página se recargue
+
+            const nombre = document.getElementById('nombre').value;
+            const cal1 = parseFloat(document.getElementById('cal1').value);
+            const cal2 = parseFloat(document.getElementById('cal2').value);
+            const cal3 = parseFloat(document.getElementById('cal3').value);
+
+            const calificaciones = [cal1, cal2, cal3];
+            const promedio = calcularPromedio(calificaciones).toFixed(2);
+            const estatus = promedio >= 6 ? "Aprobado" : "Reprobado";
+
+            const estudiante = {
+                nombre,
+                calificaciones,
+                promedio,
+                estatus
+            };
+
+            estudiantes.push(estudiante);
+
+            mostrarEstudiantes();
+
+            formulario.reset();
+        });
+
+        function mostrarEstudiantes() {
+            const contenedor = listaEstudiantes;
+            contenedor.innerHTML = "<h3>Estudiantes Registrados:</h3>";
+
+            estudiantes.forEach((est, index) => {
+                const div = document.createElement('div');
+                div.className = 'estudiante';
+                div.innerHTML = `
+          <strong>Estudiante ${index + 1}</strong><br>
+          Nombre: ${est.nombre} <br>
+          Calificaciones: ${est.calificaciones.join(', ')}<br>
+          Promedio: ${est.promedio}<br>
+          Estatus: <strong>${est.estatus}</strong>
+        `;
+                contenedor.appendChild(div);
+            });
+        }
+    </script>
+
+</body>
+
+</html>
